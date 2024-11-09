@@ -45,9 +45,9 @@ class PuntosRecompensas : AppCompatActivity() {
 
 
         btnGanarMasPuntos.setOnClickListener {
-            PuntosManager.getPuntos(mauth) { saldoPuntos ->
+            UsuarioManager.getPuntos(mauth) { saldoPuntos ->
                 val nuevoSaldoPuntos = saldoPuntos + 500
-                PuntosManager.setPuntos(FirebaseAuth.getInstance(), nuevoSaldoPuntos) { exito ->
+                UsuarioManager.setPuntos(FirebaseAuth.getInstance(), nuevoSaldoPuntos) { exito ->
                     if (exito){
                         actualizaPuntos()
                     } else {
@@ -68,7 +68,7 @@ class PuntosRecompensas : AppCompatActivity() {
 
 
     private fun actualizaPuntos(){
-        PuntosManager.getPuntos(mauth) { saldoPuntos ->
+        UsuarioManager.getPuntos(mauth) { saldoPuntos ->
             puntosUsuario.text = saldoPuntos.toString()
         }
     }

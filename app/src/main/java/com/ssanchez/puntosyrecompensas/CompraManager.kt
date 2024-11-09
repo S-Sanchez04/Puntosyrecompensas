@@ -14,10 +14,10 @@ object CompraManager {
         val database = FirebaseDatabase.getInstance()
         val mauth: FirebaseAuth = FirebaseAuth.getInstance()
 
-        PuntosManager.getPuntos(mauth){ saldoPuntos ->
+        UsuarioManager.getPuntos(mauth){ saldoPuntos ->
             if (saldoPuntos >= producto.precio) {
                 val nuevoSaldoPuntos = saldoPuntos - producto.precio
-                PuntosManager.setPuntos(mauth, nuevoSaldoPuntos){ exito ->
+                UsuarioManager.setPuntos(mauth, nuevoSaldoPuntos){ exito ->
                     if(exito){
                         val recompensaRef = database.getReference("redenciones").push()
                         val recompensa = Recompensa(
