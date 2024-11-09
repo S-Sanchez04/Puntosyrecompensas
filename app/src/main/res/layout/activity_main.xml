@@ -29,10 +29,10 @@
             android:layout_gravity="center" />
 
         <TextView
-            android:id="@+id/text500"
+            android:id="@+id/puntosUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="500"
+            android:text="0"
             android:drawableEnd="@drawable/explorapuntos"
             android:textSize="40sp"
             android:textColor="@android:color/white"

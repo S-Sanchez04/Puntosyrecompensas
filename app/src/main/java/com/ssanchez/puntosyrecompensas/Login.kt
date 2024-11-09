@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 class Login : AppCompatActivity() {
 
     private lateinit var Correo: EditText
+    private var currentToast: Toast? = null
     private lateinit var Password: EditText
     private lateinit var BtnLogin: Button
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -33,9 +34,15 @@ class Login : AppCompatActivity() {
             if (correo.isNotEmpty() && password.isNotEmpty()) {
                 signInOrSignUp(correo, password)
             } else {
-                Toast.makeText(this, "Ingrese todos los campos", Toast.LENGTH_SHORT).show()
+                mostrarMsg("Ingrese todos los campos")
             }
         }
+    }
+
+    private fun mostrarMsg(mensaje: String){
+        currentToast?.cancel()
+        currentToast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT)
+        currentToast?.show()
     }
 
     private fun signInOrSignUp(email: String, password: String) {
@@ -48,7 +55,7 @@ class Login : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 if (exception is FirebaseAuthUserCollisionException) {
                     // El usuario ya existe pero la contraseña es incorrecta
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
+                    mostrarMsg("Contraseña incorrecta")
                 } else {
                     // Si el usuario no existe, intentamos registrarlo
                     auth.createUserWithEmailAndPassword(email, password)
@@ -58,7 +65,7 @@ class Login : AppCompatActivity() {
                         }
                         .addOnFailureListener { signUpException ->
                             // Fallo al registrar
-                            Toast.makeText(this, "Error al registrarse", Toast.LENGTH_SHORT).show()
+                            mostrarMsg("Error al registrarse")
                         }
                 }
             }
@@ -72,32 +79,21 @@ class Login : AppCompatActivity() {
 
     private fun saveUserInDatabase(uid: String?, email: String) {
         if (uid == null) return
-
-        val database = FirebaseDatabase.getInstance().reference
-
-        // Crear un objeto Usuario con los datos del usuario
         val usuario = Usuario(
             userId = uid,
             nombre = "Juan Mantes", // Aquí podrías agregar lógica para obtener el nombre real del usuario
             correo = email,
-            saldoPuntos = "0" // Valor inicial de puntos
+            saldoPuntos = 0 // Valor inicial de puntos
         )
 
-        // Guarda el usuario en la referencia de "usuarios" con su UID
-        database.child("usuarios").child(uid).setValue(usuario)
-            .addOnSuccessListener {
-                // Usuario guardado exitosamente en la base de datos
-                Toast.makeText(this, "Usuario guardado exitosamente", Toast.LENGTH_SHORT).show()
+        UsuarioManager.setUsuario(usuario) { exito ->
+            if (exito) {
+                mostrarMsg("Usuario guardado exitosamente")
                 onSuccess()
+            } else {
+                mostrarMsg("Error al guardar en la base de datos:")
             }
-            .addOnFailureListener { exception ->
-                // Maneja el error
-                Toast.makeText(
-                    this,
-                    "Error al guardar en la base de datos: ${exception.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        }
     }
 
     private fun agregarProducto() {
@@ -119,19 +115,16 @@ class Login : AppCompatActivity() {
 
         // Agregar el producto a la base de datos
         if (productoId.isNotEmpty()) {
-            database.child(productoId).setValue(producto)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Producto agregado correctamente", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(this, "Error al agregar el producto", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+            ProductosManager.setProducto(producto){ exito ->
+                if (exito) {
+                    mostrarMsg("Producto agregado correctamente")
+                } else {
+                    mostrarMsg("Error al agregar el producto")
                 }
+            }
         }else
     {
-        Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+        mostrarMsg("Por favor, complete todos los campos")
     }
 }
 
