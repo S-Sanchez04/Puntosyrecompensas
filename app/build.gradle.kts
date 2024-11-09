@@ -52,4 +52,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.glide)
     annotationProcessor(libs.glide.compiler)
+    implementation("com.google.android.material:material:1.8.0")
+
 }

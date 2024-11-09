@@ -8,37 +8,50 @@
 
     <!-- Encabezado con puntos del usuario -->
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/headerLayout"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:orientation="vertical"
-        android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:background="@drawable/fondopuntos"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"> <!-- Esto asegura que todo el contenido del LinearLayout se centre -->
 
         <TextView
-            android:id="@+id/PuntosUsuarios"
+            android:id="@+id/textTienes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tienes: 500 $"
-            android:background="@drawable/fondopuntos"
-            android:textSize="24sp"
+            android:text="Tienes:"
+            android:textSize="20sp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_gravity="center" />
 
         <TextView
+            android:id="@+id/puntosUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:drawableEnd="@drawable/explorapuntos"
+            android:textSize="40sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/textExploraPuntos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Explora-Puntos"
-            android:layout_gravity="center"
             android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_gravity="center" />
+
     </LinearLayout>
+
+
 
     <!-- Título Redime tus puntos -->
     <TextView
@@ -46,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Redime tus puntos"
-        android:textSize="24sp"
+        android:textSize="33sp"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/headerLayout"
@@ -54,7 +67,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"/>
 
-    <!-- Botón Ver recompensas -->
+
+    <!-- RecyclerView para mostrar los productos -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProductos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        app:layout_constraintTop_toBottomOf="@id/tituloRedime"
+        app:layout_constraintBottom_toTopOf="@id/btnGanarMasPuntos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón Ver recompensas
     <TextView
         android:id="@+id/verRecompensas"
         android:layout_width="wrap_content"
@@ -68,32 +96,29 @@
         app:layout_constraintTop_toBottomOf="@id/tituloRedime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"/> -->
 
-    <!-- RecyclerView para mostrar los productos -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProductos"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        app:layout_constraintTop_toBottomOf="@id/verRecompensas"
-        app:layout_constraintBottom_toTopOf="@id/btnGanarMasPuntos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Botón Ganar más puntos -->
     <Button
         android:id="@+id/btnGanarMasPuntos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:text="Gana más puntos"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
         android:textSize="16sp"
+        android:elevation="8dp"
+        android:textStyle="bold"
+        android:padding="15dp"
+        app:cornerRadius="90dp"
+        android:drawableEnd="@drawable/map"
+        android:drawablePadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
